@@ -1,28 +1,27 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import PrivateRoute from "./routes/PrivateRoute";
+import DashboardHome from "./pages/DashboardHome";
+import Analytics from "./pages/Analytics";
+import Projects from "./pages/Projects";
+import Team from "./pages/Team";
+import Settings from "./pages/Settings";
 
-function App() {
+export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+
+      <Route path="/dashboard" element={<Dashboard />}>
+        <Route index element={<DashboardHome />} />
+        <Route path="analytics" element={<Analytics />} />
+        <Route path="projects" element={<Projects />} />
+        <Route path="team" element={<Team />} />
+        <Route path="settings" element={<Settings />} />
+      </Route>
+
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   );
 }
-
-export default App;
