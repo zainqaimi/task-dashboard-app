@@ -6,13 +6,21 @@ import Analytics from "./pages/Analytics";
 import Projects from "./pages/Projects";
 import Team from "./pages/Team";
 import Settings from "./pages/Settings";
+import PrivateRoute from "./routes/PrivateRoute"; // 👈 add this
 
 export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
 
-      <Route path="/dashboard" element={<Dashboard />}>
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      >
         <Route index element={<DashboardHome />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="projects" element={<Projects />} />
