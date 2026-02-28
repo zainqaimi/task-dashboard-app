@@ -1,6 +1,22 @@
-const AnalyticsCard = () => {
-  // Data for the days of the week and their completion status/value
-  const analyticsData = [
+import React from "react";
+
+interface AnalyticsData {
+  day: string;
+  value: number;
+  completed: boolean;
+  highlight?: boolean;
+  percentage?: string;
+}
+
+interface BarProps {
+  day: string;
+  completed: boolean;
+  highlight?: boolean;
+  percentage?: string;
+}
+
+const AnalyticsCard: React.FC = () => {
+  const analyticsData: AnalyticsData[] = [
     { day: "S", value: 0, completed: false },
     { day: "M", value: 70, completed: true },
     {
@@ -16,18 +32,19 @@ const AnalyticsCard = () => {
     { day: "S", value: 0, completed: false },
   ];
 
-  const Bar = ({ day, completed, highlight, percentage }) => {
-    // Base styles for the bars
+  const Bar: React.FC<BarProps> = ({
+    day,
+    completed,
+    highlight,
+    percentage,
+  }) => {
     let barStyle =
       "w-10 h-24 rounded-full flex flex-col justify-end items-center relative";
 
     if (completed) {
       barStyle += highlight ? " bg-teal-400 shadow-md" : " bg-teal-600";
     } else {
-      // Styling for striped pattern on incomplete days
       barStyle += " bg-gray-100 border border-gray-300";
-      // Note: Tailwind doesn't have a built-in stripe utility. A common approach is a custom CSS class or inline style with a gradient.
-      // For this example, we'll simulate the look with a simple gray background and border.
     }
 
     return (

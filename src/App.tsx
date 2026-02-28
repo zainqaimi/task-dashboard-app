@@ -6,7 +6,7 @@ import Analytics from "./pages/Analytics";
 import Projects from "./pages/Projects";
 import Team from "./pages/Team";
 import Settings from "./pages/Settings";
-import PrivateRoute from "./routes/PrivateRoute"; // 👈 add this
+import PrivateRoute from "./routes/PrivateRoute";
 
 export default function App() {
   return (
