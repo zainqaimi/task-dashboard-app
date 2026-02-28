@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 const ProjectProgressCard = () => {
-  // 👇 yahan apna data change kar sakte ho
   const totalTasks = 20;
   const completedTasks = 8;
   const inProgressTasks = 5;

@@ -51,7 +51,7 @@ export default function DashboardHome() {
                 <ProjectProgressCard />
               </div>
             </div>
-            <div className="flex flex-col space-y-2 items-center  ">
+            <div className="flex flex-col space-y-2 items-center ">
               <ProjectList />
               <TimeTrackerCard />
             </div>

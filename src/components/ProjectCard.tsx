@@ -1,99 +1,93 @@
-import React from "react";
-import {
-  Briefcase,
-  TrendingUp,
-  Settings,
-  Zap,
-  CheckCircle,
-} from "lucide-react"; // Example icons
+import React, { useEffect, useState } from "react";
+import { Briefcase, Zap } from "lucide-react";
+import API from "../services/api";
 
-// Define the type for a single project item
-interface ProjectItem {
+interface Product {
   id: number;
-  title: string;
-  dueDate: string;
-  icon: React.ElementType; // Type for the icon component
-  iconColor: string; // Tailwind color class for the icon background
+  name: string;
+  price: number;
+  sales: number;
+  category: string;
 }
 
-// Sample dynamic data
-const projects: ProjectItem[] = [
-  {
-    id: 1,
-    title: "Develop API Endpoints",
-    dueDate: "Nov 26, 2024",
+const categoryMap: Record<
+  string,
+  { icon: React.ElementType; bgColor: string; textColor: string }
+> = {
+  subscription: {
     icon: Briefcase,
-    iconColor: "bg-blue-100 text-blue-600",
+    bgColor: "bg-green-100",
+    textColor: "text-green-600",
   },
-  {
-    id: 2,
-    title: "Onboarding Flow",
-    dueDate: "Nov 28, 2024",
-    icon: TrendingUp,
-    iconColor: "bg-teal-100 text-teal-600",
-  },
-  {
-    id: 3,
-    title: "Build Dashboard",
-    dueDate: "Nov 30, 2024",
-    icon: Settings,
-    iconColor: "bg-green-100 text-green-600",
-  },
-  {
-    id: 4,
-    title: "Optimize Page Load",
-    dueDate: "Dec 5, 2024",
-    icon: Zap,
-    iconColor: "bg-orange-100 text-orange-600",
-  },
-  {
-    id: 5,
-    title: "Cross-Browser Testing",
-    dueDate: "Dec 6, 2024",
-    icon: CheckCircle,
-    iconColor: "bg-purple-100 text-purple-600",
-  },
-];
+  addon: { icon: Zap, bgColor: "bg-blue-100", textColor: "text-blue-600" },
+};
 
-// Reusable ProjectCard Component
-const ProjectCard: React.FC<{ project: ProjectItem }> = ({ project }) => {
-  const Icon = project.icon;
+const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
+  const {
+    icon: Icon,
+    bgColor,
+    textColor,
+  } = categoryMap[product.category] || categoryMap["subscription"];
+
   return (
-    <div className="flex items-center space-x-4 p-4 hover:bg-gray-50 cursor-pointer">
-      {/* Icon Container */}
-      <div className={`p-2 rounded-lg ${project.iconColor}`}>
-        <Icon className="w-5 h-5" />
+    <div className="flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-100">
+      <div className="flex items-center space-x-4">
+        <div className={`p-3 rounded-lg ${bgColor} ${textColor}`}>
+          <Icon className="w-5 h-5" />
+        </div>
+        <div>
+          <p className="text-sm font-medium text-gray-800">{product.name}</p>
+          <p className="text-xs text-gray-500 capitalize">
+            Category: {product.category}
+          </p>
+        </div>
       </div>
-
-      {/* Text Content */}
-      <div>
-        <p className="text-sm font-medium text-gray-800">{project.title}</p>
-        <p className="text-xs text-gray-500">Due date: {project.dueDate}</p>
+      <div className="text-right">
+        <p className="text-sm font-semibold text-gray-800">${product.price}</p>
+        <p className="text-xs text-gray-500">{product.sales} Sales</p>
       </div>
     </div>
   );
 };
 
-// Main Component to render the list
-const ProjectList: React.FC = () => {
+const ProductList: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await API.get<Product[]>("api/products");
+        setProducts(res.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
   return (
-    <div className="max-w-md mx-auto bg-white shadow-lg rounded-xl overflow-hidden">
-      {/* Header Section */}
+    <div className="max-w-lg mx-auto bg-white shadow-lg rounded-xl overflow-hidden">
       <div className="p-4 flex justify-between items-center border-b border-gray-200">
-        <h1 className="text-xl font-semibold text-gray-900">Project</h1>
-        <button className="flex items-center px-3 py-1 text-sm font-medium text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50">
+        <h1 className="text-xl font-semibold text-gray-900">Products</h1>
+        <button className="flex items-center px-3 py-1 text-sm font-medium text-green-600 border border-green-300 rounded-lg hover:bg-green-50">
           + New
         </button>
       </div>
 
-      {/* List of Projects */}
-      <div className="divide-y divide-gray-100">
-        {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
+      {/* List */}
+      <div>
+        {products.length > 0 ? (
+          products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        ) : (
+          <p className="p-4 text-gray-500 text-center">
+            No products available.
+          </p>
+        )}
       </div>
     </div>
   );
 };
 
-export default ProjectList;
+export default ProductList;
