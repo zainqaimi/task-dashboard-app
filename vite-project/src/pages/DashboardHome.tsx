@@ -1,12 +1,17 @@
 import { SectionCards } from "@/components/section-cards";
-import { ChartAreaInteractive } from "@/components/chart-area-interactive";
+import AnalyticsCard from "@/components/AnalyticsCard";
+import ProjectProgressCard from "@/components/ProjectProgressCard";
+import ReminderCard from "@/components/ReminderCard";
+import TeamCollaborationCard from "@/components/TeamCollaborationCard";
+import ProjectList from "@/components/ProjectCard";
+import TimeTrackerCard from "@/components/TimeTrackerCard";
 
 export default function DashboardHome() {
   return (
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">
         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-          <div className="flex justify-between items-center px-5">
+          <div className="flex justify-between items-center">
             <div className="flex flex-col space-y-2">
               <span className="text-2xl font-semibold">Dashboard</span>
               <span>Lorem ipsum dolor sit amet.</span>
@@ -35,8 +40,21 @@ export default function DashboardHome() {
             </div>
           </div>
           <SectionCards />
-          <div className="px-4 lg:px-6">
-            <ChartAreaInteractive />
+          <div className="flex items-center justify-between ">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <AnalyticsCard />
+                <ReminderCard />
+              </div>
+              <div className="flex items-center justify-between">
+                <TeamCollaborationCard />
+                <ProjectProgressCard />
+              </div>
+            </div>
+            <div className="flex flex-col space-y-2 items-center  ">
+              <ProjectList />
+              <TimeTrackerCard />
+            </div>
           </div>
         </div>
       </div>
