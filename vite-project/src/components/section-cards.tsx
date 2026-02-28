@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton"; // shadcn-ui skeleton
+import { Skeleton } from "@/components/ui/skeleton";
 
 import API from "@/services/api";
 
@@ -76,7 +76,7 @@ export function SectionCards() {
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-4  @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       {loading
         ? Array.from({ length: 4 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
